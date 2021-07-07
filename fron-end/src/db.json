@@ -1,0 +1,42 @@
+{
+    "categories": [
+        {
+            "id": 1,
+            "title": "Internet",
+            "period": "Mensal"
+        },
+        {
+            "id": 2,
+            "title": "Supermercado",
+            "period": "Diário"
+        },
+        {
+            "id": 3,
+            "title": "Galão d'água",
+            "period": "Semanal"
+        }
+    ],
+    "spending": [
+        {
+            "id": 1,
+            "category_fk": 1,
+            "description": "Mês tal",
+            "total_spent": "100.00",
+            "closing_date": "2021-06-03"
+        },
+        {
+            "id": 2,
+            "category_fk": 2,
+            "description": "Começo do Mês",
+            "total_spent": "75.00",
+            "closing_date": "2021-07-03"
+        },
+        {
+            "id": 3,
+            "category_fk": 2,
+            "description": "Mercantil",
+            "total_spent": "5.00",
+            "closing_date": "2021-05-23"
+        }
+    ]
+}

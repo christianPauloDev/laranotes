@@ -1,0 +1,39 @@
+.Load {
+    text-align: center;
+  }
+  
+  .Load-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .Load-logo {
+      animation: Load-logo-spin infinite 3s linear;
+    }
+  }
+  
+  .Load-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .Load-link {
+    color: #61dafb;
+  }
+  
+  @keyframes Load-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
