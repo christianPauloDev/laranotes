@@ -160,8 +160,12 @@ function App() {
 
   const [showModalEditSpend, setShowModalEditSpend] = useState(false);
   const handleModalEditSpend = (spending) => {
-    setShowModalEditSpend(!showModalEditSpend);
+    setShowModalEditSpend(true);
     setEditSpend(spending)
+  }
+
+  const hideModalEditSpend = () => {
+    setShowModalEditSpend(false);
   }
 
   const handleFormEditSpend = event => setEditSpend({ ...editSpend, [event.target.name]: event.target.value });
@@ -182,14 +186,16 @@ function App() {
         setShowAlertSuccessEditSpend(true)
 
         setTimeout(() => {
-          handleModalEditSpend({
+          setEditSpend({
             id: '',
             category_fk: '',
             closing_date: '',
             description: '',
             total_spent: '',
-          })
-        }, 3000);
+          });
+          hideModalEditSpend();
+          setShowAlertSuccessEditSpend(false);
+        }, 2000);
 
       }
     })
@@ -253,9 +259,11 @@ function App() {
   }
 
   const formatDate = value => {
-    let date = new Date(value);
-    let dateFormated = ((date.getDate())) + "/" + ((date.getMonth() + 1)) + "/" + date.getFullYear();
-    return dateFormated;
+    let year = value.split('-')[0];
+    let month = value.split('-')[1];
+    let day = value.split('-')[2];
+    let newDate = `${day}/${month}/${year}`;
+    return newDate;
   }
 
   const formatCurrency = value => {
@@ -298,7 +306,7 @@ function App() {
                 <select defaultChecked={filters.category} name='category' value={filters.category} onChange={handleFilter} className='form-select'>
                   <option selected value='' >Escolha a categoria</option>
                   {categories.map(categorySelect => (
-                    <option value={categorySelect.id} key={categorySelect.id}>{categorySelect.title} - {categorySelect.period}</option>
+                    <option value={categorySelect.id} key={categorySelect.id}>{categorySelect.title}</option>
                   ))}
                 </select>
               </div>
@@ -357,7 +365,7 @@ function App() {
               <div className="mb-3">
                 <label htmlFor="categoryTitle"> Título da Categoria </label>
                 <input type="text" name="title" id="categoryTitle"
-                  placeholder="Ex: Bolsa Presente, Hidratante, etc." className="form-control" value={formCategory.title} onChange={handleFormCategory} />
+                  placeholder="Ex: Viajens, Mês, Gasolina, etc" className="form-control" value={formCategory.title} onChange={handleFormCategory} />
               </div>
               <div className="mb-3">
                 <label htmlFor="categoryPeriod"> Período do Gasto </label>
@@ -403,7 +411,7 @@ function App() {
                   <div className="mb-3">
                     <label htmlFor="spendValue"> Valor do Gasto </label>
                     <CurrencyInput
-                      className="form-control" prefix="R$" decimalSeparator="," thousandSeparator="." placeholder="R$xx,xx"
+                      className="form-control" prefix="R$" decimalSeparator="," thousandSeparator="."
                       value={formSpend.total_spent} onChangeEvent={handleSpendValue}
                     />
                   </div>
@@ -412,7 +420,7 @@ function App() {
                   <div className="mb-3">
                     <label htmlFor="spendDate"> Data do Gasto </label>
                     <input type="date" name="closing_date" id="spendDate"
-                      placeholder="Ex: Bolsa Presente, Hidratante, etc." className="form-control" value={formSpend.closing_date} onChange={handleFormSpend} />
+                      className="form-control" value={formSpend.closing_date} onChange={handleFormSpend} />
                   </div>
                 </div>
               </div>
@@ -425,7 +433,7 @@ function App() {
             </div>
           </Modal>
 
-          <Modal show={showModalEditSpend} onHide={handleModalEditSpend}>
+          <Modal show={showModalEditSpend} onHide={hideModalEditSpend}>
             <div className="modal-header bg-success">
               <h5 className="modal-title text-white" id="exampleModalLabel"> <i className='fas fa-money-check-alt'></i> &nbsp; Editar Gastos</h5>
             </div>
@@ -467,7 +475,7 @@ function App() {
               {showAlertSuccessEditSpend && alertEditSuccess()}
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-link text-danger" onClick={handleModalEditSpend}> Fechar</button>
+              <button type="button" className="btn btn-link text-danger" onClick={hideModalEditSpend}> Fechar</button>
               <button type="button" className="btn btn-success" onClick={sendFormEditSpend}> <i className='fas fa-edit'></i>  Editar Gasto</button>
             </div>
           </Modal>

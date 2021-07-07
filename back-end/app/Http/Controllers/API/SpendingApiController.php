@@ -40,26 +40,13 @@ class SpendingApiController extends BaseController
 
         $data = $this->model->create($dataForm);
 
-        return response()->json($data, 201);
+        return response()->json($data, 200);
     }
-
-
-    public function show($id)
-    {
-        if (!$data = $this->model->find($id)) {
-            return response()->json([
-                'error'=>'Nenhuma informação encontrado'
-            ], 404);
-        } else {
-            return response()->json($data, 201);
-        }
-    }
-
 
     public function update($id)
     {   
         if (!$data = $this->model->find($id))
-            return response()->json(['error'=>'Registro inválido'], 404);
+            return response()->json(['error'=>'Consulta inválida'], 404);
 
         $this->validate($this->request, $this->model->rules());
 
@@ -70,57 +57,4 @@ class SpendingApiController extends BaseController
         return response()->json($data);
     }
 
-
-    public function destroy($id)
-    {
-        if ($data = $this->model->find($id)) {
-            $data->delete();
-            
-            return response()->json(['success' => 'Deletado com sucesso']);
-        } else {
-            return response()->json(['error'=>''], 404); 
-        }
-    }
-
-    public function byCategory($category_fk)
-    {
-        $data = $this->model->where('category_fk', $category_fk)->get();
-
-        if (!count($data)) {
-            return response()->json(['error' => 'Nenhum registro encontrado'], 404);
-        } else {
-            return response()->json($data);
-        }
-    }
-
-    public function byPeriod($period)
-    {
-        $data = DB::table('spendings')
-                ->join('categories', 'categories.id', '=', 'category_fk')
-                ->where('period', '=', $period)
-                ->select('spendings.*')
-                ->get();
-                
-        if (!count($data)) {
-            return response()->json(['error' => 'Nenhum registro encontrado'], 404);
-        } else {
-            return response()->json($data);
-        }
-    }
-
-    public function allFilters($category_fk, $period)
-    {
-        $data = DB::table('spendings')
-                ->join('categories', 'categories.id', '=', 'category_fk')
-                ->where('period', '=', $period)
-                ->where('category_fk', $category_fk)
-                ->select('spendings.*')
-                ->get();
-                
-        if (!count($data)) {
-            return response()->json(['error' => 'Nenhum registro encontrado'], 404);
-        } else {
-            return response()->json($data);
-        }
-    }
 }

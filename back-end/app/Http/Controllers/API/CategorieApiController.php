@@ -42,23 +42,10 @@ class CategorieApiController extends BaseController
         return response()->json($data, 201);
     }
 
-
-    public function show($id)
-    {
-        if (!$data = $this->model->find($id)) {
-            return response()->json([
-                'error'=>'Nenhuma informação encontrado'
-            ], 404);
-        } else {
-            return response()->json($data, 201);
-        }
-    }
-
-
     public function update($id)
     {   
         if (!$data = $this->model->find($id))
-            return response()->json(['error'=>'Registro inválido'], 404);
+            return response()->json(['error'=>'Consulta inválida'], 404);
 
         $this->validate($this->request, $this->model->rules());
 
@@ -69,15 +56,4 @@ class CategorieApiController extends BaseController
         return response()->json($data);
     }
 
-
-    public function destroy($id)
-    {
-        if ($data = $this->model->find($id)) {
-            $data->delete();
-            
-            return response()->json(['success' => 'Deletado com sucesso']);
-        } else {
-            return response()->json(['error'=>''], 404); 
-        }
-    }
 }
